@@ -26,11 +26,35 @@
 
 \maketitle
 
-\section{Vector Norms}
-Introduce p norm with special cases $ p = 0, 1, 2, \infty$.
+\section{Background: $p$ Norms for Vectors}
+This section formally introduces $p$ norms with a focus on the special cases $ p = 0, 1, 2, \infty$.
+The $p$ norm of a vector $x \in \R^d$ is denoted as $||x||_p$ and defined as
+$$||x||_p = \left(\sum_{i = 1}^d |x_i|^p \right)^{1/p},$$
+where $|x_i| = \text{sign}(x_i)x_i$ denotes the absolute value. In literature $p$ norms are often denoted as $l_p$ norms.
+
+The most important special cases is the $2$ norm, a.k.a.\ Euclidean norm. It is defined as
+$$||x||_2 = \sqrt{\sum_{i = 1}^d x_i^2}.$$
+Other important cases include the $0$ norm,
+$$||x||_0 = \sum_{i = 1}^d \1\{x_i \neq 0\},$$
+the $1$ norm, a.k.a.\ Manhattan norm,
+$$||x||_1 = \sum_{i = 1}^d |x_i|,$$
+and the $\infty$ norm, a.k.a. maximum norm,
+$$||x||_\infty = \max_{i = 1, \ldots, d} |x_i|.$$
+
+A unit ball for a norm $||\cdot||$ contains all points with distance $1$ around the origin, i.e. all points $\{x: ||x|| = 0\}$. The unit balls for the $1, 2,$ and $\infty$ norm in $\R^2$ are depicted in Figure~\ref{fig:input}.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.3\textwidth]{unit_circle_1.pdf}
+    \includegraphics[width=0.3\textwidth]{unit_circle_2.pdf}
+    \includegraphics[width=0.3\textwidth]{unit_circle_inf.pdf}
+    \caption{Unit balls in $\R^2$ of the $l_1$ (left), $l_2$ (center), an $l_\infty$ norm (right).}
+    \label{fig:input}
+\end{figure}
 
 
 \section{Induced Vector Norms}
+
+
 
 \section{Induced Matrix Norms}
 An induced matrix norm is a function of an arbitrary matrix $A \in \R^{n \times d}$ of the form
@@ -39,7 +63,7 @@ Intuitively, the induced norm of a matrix $A$ measures, or more precisely limits
 In order for this statement to make sense, we need to limit the size of applicable vectors $x$ by limiting the $q$ norm of $x$ to be 1 (note that the limitation $||x||_p \leq 1$ simplifies is in practice $||x||_p = 1$). 
 The size of the "distorted $x$" $Ax$ is measured using the $q$ norm.
 A common notational shorthand when $p = q$ is to write
-$$||A||_p = ||A||_{p \to p}$$
+$$||A||_p = ||A||_{p \to p}.$$
 
 For some pairs of $p$ and $q$, the induced norm $||A||_{p \to q}$ is analytically directly accessible, see Table~\ref{tab:induced_norm}. 
 
@@ -64,19 +88,10 @@ $$A =
 2 & 1
 \end{bmatrix}.$$
 
-The applicable input vectors $\{x \in \R^d: ||x||_p = 1\}$ for the $||\cdot||_p = 1, 2$ and $\infty$ norm, are depicted in Figure~\ref{fig:input}.
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.3\textwidth]{unit_circle_1.pdf}
-    \includegraphics[width=0.3\textwidth]{unit_circle_2.pdf}
-    \includegraphics[width=0.3\textwidth]{unit_circle_inf.pdf}
-    \caption{Applicable $x$ on the unit circle of the $l_1$ (left), $l_2$ (center), an $l_\infty$ norm (right). All $x$ on the unit circle have $||x||_p = 1,$ for $p = 1, 2, \infty$ respectively. Note that the applicable input vectors $x$ are \textbf{not} specific to the choice of $A$ but only to the choice of the $p$.}
-    \label{fig:input}
-\end{figure}
-
-
+The applicable input vectors $\{x \in \R^d: ||x||_p = 1\}$ for the $||\cdot||_p = 1, 2$ and $\infty$ norm, are depicted in Figure~\ref{fig:input}. All $x$ on the unit circle have $||x||_p = 1,$ for $p = 1, 2, \infty$ respectively. Note that the applicable input vectors $x$ are \textbf{not} specific to the choice of $A$ but only to the choice of the $p$.
 In order to find the supremum over all applicable input vectors, all applicable $x$ are  multiplied by $A$. The points $Ax$ are depicted in Figure~\ref{fig:output}. The induced norm is defined as the maximum $q$ norm of all points $\{Ax\}$.
+
+
 
 \begin{figure}[ht]
     \centering
