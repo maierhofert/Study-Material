@@ -50,17 +50,86 @@ A unit ball for a norm $||\cdot||$ contains all points with distance $1$ around 
     \caption{Unit balls in $\R^2$ of the $l_1$ (left), $l_2$ (center), an $l_\infty$ norm (right).}
     \label{fig:input}
 \end{figure}
+Note that for one-dimensional $x$, i.e.\ $x \in \R$, all $p$-norms conflate to the absolute value for $p > 0$.
 
+\subsection{Example: $p$-Norm of a Vector}
+The $5$ dimensional vector 
+$$v = 
+\begin{pmatrix}
+1 \\ 1 \\ -3 \\ -5
+\end{pmatrix}
+$$
+has $1$ norm
+\begin{eqnarray*}
+||v||_1 &=& \sum_{i = 1}^d |x_i| \\
+&=& 1 + 1 + 3 + 5 \\
+&=& 10,
+\end{eqnarray*}
+has $2$ norm
+\begin{eqnarray*}
+||v||_2 &=& \sqrt{\sum_{i = 1}^d x_i^2} \\
+&=& \sqrt{1^2 + 1^2 + (-3)^2 + (-5)^2} \\
+&=& \sqrt{36} \\
+&=& 6,
+\end{eqnarray*}
+and $\infty$ norm
+\begin{eqnarray*}
+||v||_\infty &=& \max_i |x_i| \\
+&=& \max(1, 1, 3, 5) \\
+&=& 5.
+\end{eqnarray*}
 
 \section{Induced Vector Norms}
+An induced vector norm is a function of an arbitrary vector $v \in \R^{n \times d}$ of the form
+$$||v||_{p} = \sup_{\{x \in \R^d: ||x||_p \leq 1\}} |v^T x|,$$
+where $|\cdot|$ denotes the absolute value, i.e. a $q$-norm with arbitrary $q > 0$.
+Intuitively, the induced norm of a vector $v$ measures, or more precisely limits, how far it can project a vector $x$.
+In order for this statement to make sense, we need to limit the size of applicable vectors $x$ by limiting the $q$ norm of $x$ to be 1 (note that the limitation $||x||_p \leq 1$ simplifies is in practice $||x||_p = 1$). 
+The size of the projection $v^Tx$ is measured using the absolute value.
 
+For some pairs of $p$ and $q$, the induced norm $||A||_{p \to q}$ is analytically directly accessible, see Table~\ref{tab:induced_v_norm}. 
+
+\begin{table}[ht]
+\caption{Analytically accessible induced vector norms $||v||_{p}$ for domain $p$.}
+\begin{tabular}{ll|p{2.5cm}p{3cm}p{3.5cm}}
+\multirow{4}{*}{p} &    & Induced norm & Maximizing input $\hat x$  & remarks on $\hat x$ \\ \cline{2-5}
+    & 1 & $||v||_\infty$ & $e_i, \ i = \underset{j}{\text{arg max }} |v_j|$ &  $\hat x$ is one hot vector with 1 where $|v_i|$ is largest\\
+    & 2 & $||v||_2$ & $\frac{1}{||v||_2} v$ &  $\hat x$ is scaled version of $v$\\
+    & $\infty$ & $||v||_1$ & $\text{sign}(v)$ & $\hat x_i=
+        \begin{cases}
+        1 & v_i \leq 0 \\
+        -1 & v_i < 0
+        \end{cases}$  
+\end{tabular}
+\label{tab:induced_v_norm}
+\end{table}
+
+\subsection{Example: Induced Norm of a Vector of length 4}
+To illustrate the induced norm consider the following vector
+$$
+v = \begin{pmatrix}
+1 \\ 1 \\ -3 \\ -5 \\
+\end{pmatrix}.$$
+
+Its induced norms and maximizing input vector are given in Table~\ref{tab:example_induced_v_norm}.
+
+\begin{table}[ht]
+\caption{Analytically accessible induced vector norms $||v||_{p}$ for domain $p$.}
+\begin{tabular}{ll|p{2.5cm}p{6.5cm}}
+\multirow{4}{*}{p} &    & Induced norm & Maximizing input $\hat x$ \\ \cline{2-4}
+    & 1 & $||v||_\infty = 5$ & $ (e_i, \ i = \underset{j}{\text{arg max }} |v_j|) = (0, 0, 0, 1)$ \\
+    & 2 & $||v||_2$ = 6 & $\frac{1}{||v||_2} v = \frac{1}{6} (1, 2, -3, -5) = (\frac{1}{6}, \frac{1}{6}, -\frac{1}{2}, -\frac{5}{6})$ \\
+    & $\infty$ & $||v||_1 = 10$ & $\text{sign}(v) = (1, 1, -1, -1)$   
+\end{tabular}
+\label{tab:example_induced_v_norm}
+\end{table}
 
 
 \section{Induced Matrix Norms}
 An induced matrix norm is a function of an arbitrary matrix $A \in \R^{n \times d}$ of the form
 $$||A||_{p \to q} = \sup_{\{x \in \R^d: ||x||_p \leq 1\}} ||Ax||_q.$$
 Intuitively, the induced norm of a matrix $A$ measures, or more precisely limits, how far it can distort a vector $x$.
-In order for this statement to make sense, we need to limit the size of applicable vectors $x$ by limiting the $q$ norm of $x$ to be 1 (note that the limitation $||x||_p \leq 1$ simplifies is in practice $||x||_p = 1$). 
+In order for this statement to make sense, we need to limit the size of applicable vectors $x$ by limiting the $p$ norm of $x$ to be 1 (note that the limitation $||x||_p \leq 1$ simplifies is in practice $||x||_p = 1$). 
 The size of the "distorted $x$" $Ax$ is measured using the $q$ norm.
 A common notational shorthand when $p = q$ is to write
 $$||A||_p = ||A||_{p \to p}.$$
@@ -83,10 +152,10 @@ For some pairs of $p$ and $q$, the induced norm $||A||_{p \to q}$ is analyticall
 \subsection{Example: Induced Norm of a $2 \times 2$ matrix}
 In order to get a better handle on this theoretical concept, consider the induced norm of the following matrix 
 $$A = 
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 3 \\
 2 & 1
-\end{bmatrix}.$$
+\end{pmatrix}.$$
 
 The applicable input vectors $\{x \in \R^d: ||x||_p = 1\}$ for the $||\cdot||_p = 1, 2$ and $\infty$ norm, are depicted in Figure~\ref{fig:input}. All $x$ on the unit circle have $||x||_p = 1,$ for $p = 1, 2, \infty$ respectively. Note that the applicable input vectors $x$ are \textbf{not} specific to the choice of $A$ but only to the choice of the $p$.
 In order to find the supremum over all applicable input vectors, all applicable $x$ are  multiplied by $A$. The points $Ax$ are depicted in Figure~\ref{fig:output}. The induced norm is defined as the maximum $q$ norm of all points $\{Ax\}$.
